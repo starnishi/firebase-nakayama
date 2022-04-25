@@ -13,7 +13,6 @@
       </div>
     </header>
 
-
     <!--Firebase から取得したリストを描画（トランジション付き）-->
     <transition-group name="chat" tag="div" class="list content">
       <section v-for="{ key, name, image, message } in chat" :key="key" class="item">
