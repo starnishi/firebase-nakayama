@@ -39,10 +39,7 @@
 
 <script>
 // firebase モジュール
-import { onAuthStateChanged, signInWithPopup, signOut, getAuth, TwitterAuthProvider } from 'firebase/auth'
-import { getDatabase, ref, push } from "firebase/database"
-
-
+import firebase from 'firebase'
 // 改行を <br> タグに変換するモジュール
 import Nl2br from 'vue-nl2br'
 export default {
@@ -55,11 +52,9 @@ export default {
     }
   },
   created() {
-    const auth = getAuth()
-    onAuthStateChanged(auth, (user) => {
+    firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
-      const db = getDatabase
-      const ref_message = ref(db, 'message')
+      const ref_message = firebase.database().ref('message')
       if (user) {
         this.chat = []
         // message に変更があったときのハンドラを登録
@@ -73,12 +68,12 @@ export default {
   methods: {
     // ログイン処理
     doLogin() {
-      const provider = new TwitterAuthProvider()
-      signInWithPopup(provider)
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithPopup(provider)
     },
     // ログアウト処理
     doLogout() {
-      signOut()
+      firebase.auth().signOut()
     },
     // スクロール位置を一番下に移動
     scrollBottom() {
@@ -100,36 +95,21 @@ export default {
     },
     doSend() {
       if (this.user.uid && this.input.length) {
-        const db = getDatabase()
         // firebase にメッセージを追加
-        push(ref(db, 'massage'), {
+        firebase.database().ref('message').push({
           message: this.input,
           name: this.user.displayName,
           image: this.user.photoURL
         }, () => {
           this.input = '' // フォームを空にする
         })
-        // database().ref('message').set({
-        //   message: this.input,
-        //   name: this.user.displayName,
-        //   image: this.user.photoURL
-        // }, () => {
-        //   this.input = '' // フォームを空にする
-        // })
       }
-      //   function writeUserData(userId, name, email, imageUrl) {
-      //   const db = getDatabase();
-      //   push(ref(db, 'users/' + userId), {
-      //     username: name,
-      //     email: email,
-      //     profile_picture : imageUrl
-      //   });
-      // }
     }
   }
 }
 </script>
-<style scoped>
+
+<style>
 * {
   margin: 0;
   box-sizing: border-box;

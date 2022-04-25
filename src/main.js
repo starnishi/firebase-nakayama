@@ -1,19 +1,27 @@
-import { initializeApp } from 'firebase/app'
-import { createApp } from 'vue'
+import { Vue } from 'vue'
 import App from './App.vue'
+import firebase from 'firebase'
 
-// Initialize Firebase
+console.log("vue:" + Vue)
+
+Vue.config.productionTip = false
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCfIk0qNhveTIazi3CpbZGpERzzL1xlUZo",
-    authDomain: "tutorial-nakayama.firebaseapp.com",
-    databaseURL: "https://tutorial-nakayama-default-rtdb.firebaseio.com",
-    projectId: "tutorial-nakayama",
-    storageBucket: "tutorial-nakayama.appspot.com",
-    messagingSenderId: "454801312535",
-    appId: "1:454801312535:web:0fd89ec3801488a4324552",
-    measurementId: "G-RCW2ZKTNG9"
+    apiKey: "AIzaSyDmuW666ttrAozcVD2Es0r_28j5Sc6u7Zs",
+    authDomain: "chat-app-f8b1c.firebaseapp.com",
+    databaseURL: "https://chat-app-f8b1c-default-rtdb.firebaseio.com",
+    projectId: "chat-app-f8b1c",
+    storageBucket: "chat-app-f8b1c.appspot.com",
+    messagingSenderId: "726013919822",
+    appId: "1:726013919822:web:444eb92625a09d6e12391f"
 };
+  
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-initializeApp(firebaseConfig)
-
-createApp(App).mount('#app')
+new Vue({
+    el: '#app',
+    components: { App },
+    template: '<App/>'
+})
